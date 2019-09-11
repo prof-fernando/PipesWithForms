@@ -1,14 +1,49 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      Pipe app
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+  <ion-item>
+    <ion-input type="number" [(ngModel)]="preco"></ion-input>
+  </ion-item>
+  <form [formGroup]="formHome">
+    <ion-item>
+      <ion-label position="floating">Nome:</ion-label>
+      <ion-input formControlName="nome"></ion-input>
+      <ion-note
+        *ngIf="formHome.get('nome').dirty && formHome.get('nome').hasError('minlength')"
+        color="danger"
+        slot="end"
+      >
+        Mínimo 3 letras
+      </ion-note>
+      <ion-note
+        *ngIf="formHome.get('nome').dirty && formHome.get('nome').hasError('required')"
+        color="danger"
+        slot="end"
+      >
+        campo obrigatório
+      </ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">valor:</ion-label>
+      <ion-input formControlName="valor"></ion-input>
+    </ion-item>
+    <ion-item color="danger"
+     *ngIf="valor.dirty &&
+      valor.hasError('required')">
+      <ion-icon name="alert"></ion-icon>
+      Campo valor precisa ser especificado ....
+    </ion-item>
+  </form>
+  <ion-button (click)="testar()" color="dark" [disabled]="!formHome.valid">
+    ok
+  </ion-button>
+  <h1>
+    {{ preco | formata: 2 | currency: 'BRL' }}
+  </h1>
 </ion-content>
